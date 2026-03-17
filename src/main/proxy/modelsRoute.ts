@@ -22,7 +22,7 @@ export function createModelsRoute(options: ModelsRouteOptions) {
         {
           id: options.model,
           object: 'model',
-          owned_by: 'tokenhub',
+          owned_by: 'lmbase',
         },
       ],
     });

@@ -31,8 +31,8 @@ function createIpcSessionController() {
 }
 
 async function initializeApp(): Promise<void> {
-  console.log('TokenHub starting...');
-  logger.info('TokenHub starting...');
+  console.log('LMbase starting...');
+  logger.info('LMbase starting...');
 
   try {
     unregisterIpcHandlers = registerIpcHandlers({ sessionController });

@@ -2,7 +2,7 @@ import type { ExchangeEstimateResult, FetchModelsResult } from '@shared/contract
 import { filterUniqueStrings, type FetchLike, requestJson } from './providerClient';
 
 export async function resolveServerHttpBaseUrl(): Promise<string> {
-  const serverUrl = (process.env.TOKENHUB_SERVER ?? 'ws://localhost:8080').trim();
+  const serverUrl = (process.env.LMBASE_SERVER ?? 'ws://localhost:8080').trim();
   if (serverUrl.startsWith('ws://')) {
     return `http://${serverUrl.slice('ws://'.length).replace(/\/+$/, '')}`;
   }

@@ -30,7 +30,7 @@ function fileExistsAndExecutable(filePath: string): boolean {
 }
 
 function resolveNgrokCommand(): string {
-  const configured = process.env.TOKENHUB_NGROK_BIN?.trim() || process.env.NGROK_BIN?.trim();
+  const configured = process.env.LMBASE_NGROK_BIN?.trim() || process.env.NGROK_BIN?.trim();
   if (configured) {
     return configured;
   }
@@ -84,7 +84,7 @@ export class NgrokProvider implements TunnelProvider {
       return null;
     }
 
-    const dir = await mkdtemp(join(tmpdir(), 'tokenhub-ngrok-'));
+    const dir = await mkdtemp(join(tmpdir(), 'lmbase-ngrok-'));
     const configPath = join(dir, 'ngrok.yml');
     const lines = ["version: '2'", `authtoken: ${quoteYamlString(authtoken)}`];
 

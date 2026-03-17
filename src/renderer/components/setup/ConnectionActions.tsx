@@ -2,8 +2,8 @@ import { useAppStore } from '../../store/appStore';
 import { validateSetupForm } from '../../lib/validators';
 import { mapToExchangeConfig } from '../../lib/formMappers';
 
-type TokenHubWindow = Window & {
-  tokenhub: {
+type LMbaseWindow = Window & {
+  lmbase: {
     providers: {
       validateKey: (request: { provider: string; apiKey: string }) => Promise<{ valid: boolean; message: string }>;
     };
@@ -14,7 +14,7 @@ type TokenHubWindow = Window & {
 };
 
 export function ConnectionActions() {
-  const tokenhub = (window as unknown as TokenHubWindow).tokenhub;
+  const lmbase = (window as unknown as LMbaseWindow).lmbase;
   const offer = useAppStore((state) => state.offer);
   const receive = useAppStore((state) => state.receive);
   const authMethod = useAppStore((state) => state.authMethod);
@@ -55,7 +55,7 @@ export function ConnectionActions() {
       );
 
       if (authMethod === 'api_key' && offer.provider) {
-        const validation = await tokenhub.providers.validateKey({
+        const validation = await lmbase.providers.validateKey({
           provider: offer.provider,
           apiKey,
         });
@@ -66,7 +66,7 @@ export function ConnectionActions() {
         }
       }
 
-      const result = await tokenhub.session.start(config);
+      const result = await lmbase.session.start(config);
 
       if (!result.success) {
         setErrors([{ field: 'connection', message: result.error || 'Failed to start session' }]);

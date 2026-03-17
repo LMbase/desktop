@@ -22,7 +22,7 @@ export function createBeforeQuitCleanup(options: BeforeQuitCleanupOptions) {
   let shuttingDown = false;
 
   return (event: BeforeQuitEventLike): void => {
-    logger.info('TokenHub shutting down...');
+    logger.info('LMbase shutting down...');
 
     if (shuttingDown) {
       return;

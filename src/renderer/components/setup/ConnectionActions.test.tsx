@@ -22,25 +22,25 @@ vi.mock('../../store/appStore', () => ({
 describe('ConnectionActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(window.tokenhub.providers.validateKey).mockResolvedValue({ valid: true, message: 'OK' });
-    vi.mocked(window.tokenhub.session.start).mockResolvedValue({ success: true });
+    vi.mocked(window.lmbase.providers.validateKey).mockResolvedValue({ valid: true, message: 'OK' });
+    vi.mocked(window.lmbase.session.start).mockResolvedValue({ success: true });
   });
 
   it('validates key before starting session', async () => {
     render(<ConnectionActions />);
     fireEvent.click(screen.getByRole('button', { name: /find match/i }));
 
-    await waitFor(() => expect(window.tokenhub.providers.validateKey).toHaveBeenCalled());
-    expect(window.tokenhub.session.start).toHaveBeenCalled();
+    await waitFor(() => expect(window.lmbase.providers.validateKey).toHaveBeenCalled());
+    expect(window.lmbase.session.start).toHaveBeenCalled();
   });
 
   it('stops when provider validation fails', async () => {
-    vi.mocked(window.tokenhub.providers.validateKey).mockResolvedValue({ valid: false, message: 'Invalid API key' });
+    vi.mocked(window.lmbase.providers.validateKey).mockResolvedValue({ valid: false, message: 'Invalid API key' });
 
     render(<ConnectionActions />);
     fireEvent.click(screen.getByRole('button', { name: /find match/i }));
 
     await waitFor(() => expect(setErrors).toHaveBeenCalledWith([{ field: 'apiKey', message: 'Invalid API key' }]));
-    expect(window.tokenhub.session.start).not.toHaveBeenCalled();
+    expect(window.lmbase.session.start).not.toHaveBeenCalled();
   });
 });

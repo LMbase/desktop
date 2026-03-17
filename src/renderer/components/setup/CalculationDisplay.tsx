@@ -40,7 +40,7 @@ export function ReceiveSummary() {
           offeredTokens: totalTokens,
         };
 
-    void window.tokenhub.providers
+    void window.lmbase.providers
       .estimateExchange(request)
       .then((result) => {
         if (!active) {

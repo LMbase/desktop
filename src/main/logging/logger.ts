@@ -3,8 +3,8 @@ const { app } = electron;
 import fs from 'fs/promises';
 import path from 'path';
 
-const LOG_FILE = process.env.TOKENHUB_LOG || 
-  path.join(app.getPath('home'), `tokenhub_${process.pid}.log`);
+const LOG_FILE = process.env.LMBASE_LOG || 
+  path.join(app.getPath('home'), `lmbase_${process.pid}.log`);
 
 class Logger {
   private logPath: string;
@@ -27,7 +27,7 @@ class Logger {
       console.error('Failed to write to log file');
     }
     
-    if (process.env.NODE_ENV === 'development' || process.env.TOKENHUB_DEBUG) {
+    if (process.env.NODE_ENV === 'development' || process.env.LMBASE_DEBUG) {
       console.log(line.trim());
     }
   }
@@ -45,7 +45,7 @@ class Logger {
   }
 
   debug(message: string, ...args: unknown[]): void {
-    if (process.env.TOKENHUB_DEBUG) {
+    if (process.env.LMBASE_DEBUG) {
       void this.write('DEBUG', message, ...args);
     }
   }

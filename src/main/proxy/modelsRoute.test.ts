@@ -42,7 +42,7 @@ describe('modelsRoute', () => {
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual({
       object: 'list',
-      data: [{ id: 'gpt-4o-mini', object: 'model', owned_by: 'tokenhub' }],
+      data: [{ id: 'gpt-4o-mini', object: 'model', owned_by: 'lmbase' }],
     });
   });
 });

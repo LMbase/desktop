@@ -2,7 +2,7 @@ export const PROVIDERS = ['openai', 'anthropic', 'gemini', 'github-copilot'] as 
 export type Provider = (typeof PROVIDERS)[number];
 
 export const DEFAULT_PROXY_PORT = 9100;
-export const DEFAULT_TOKENHUB_SERVER = 'ws://localhost:8080';
+export const DEFAULT_LMBASE_SERVER = 'ws://localhost:8080';
 
 export const PROVIDER_CONFIG: Record<Provider, ProviderConfig> = {
   openai: {

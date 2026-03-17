@@ -4,24 +4,24 @@ import { createProviderApi, type ProviderApi } from './providerApi';
 import { createSessionApi, type SessionApi } from './sessionApi';
 import { createSettingsApi, type SettingsApi } from './settingsApi';
 
-export interface TokenHubApi {
+export interface LMbaseApi {
   providers: ProviderApi;
   auth: AuthApi;
   settings: SettingsApi;
   session: SessionApi;
 }
 
-const tokenhubApi: TokenHubApi = {
+const lmbaseApi: LMbaseApi = {
   providers: createProviderApi(),
   auth: createAuthApi(),
   settings: createSettingsApi(),
   session: createSessionApi(),
 };
 
-contextBridge.exposeInMainWorld('tokenhub', tokenhubApi);
+contextBridge.exposeInMainWorld('lmbase', lmbaseApi);
 
 declare global {
   interface Window {
-    tokenhub: TokenHubApi;
+    lmbase: LMbaseApi;
   }
 }

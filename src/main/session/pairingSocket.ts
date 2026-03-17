@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { z } from 'zod';
-import { DEFAULT_TOKENHUB_SERVER } from '../../shared/constants';
+import { DEFAULT_LMBASE_SERVER } from '../../shared/constants';
 import type { PairingInfo } from '../../shared/contracts/session';
 import type { RegisterWireMessage } from './registerMessage';
 
@@ -125,7 +125,7 @@ export function createPairingSocket(options: PairingSocketOptions = {}): Pairing
 
   return {
     connect: async () => {
-      const targetUrl = wsUrl(options.serverBaseUrl ?? process.env.TOKENHUB_SERVER ?? DEFAULT_TOKENHUB_SERVER);
+      const targetUrl = wsUrl(options.serverBaseUrl ?? process.env.LMBASE_SERVER ?? DEFAULT_LMBASE_SERVER);
       socket = createWebSocket(targetUrl);
       socket.onopen = () => push({ type: 'open' });
       socket.onclose = (event) => push({ type: 'close', reason: event.reason || undefined });

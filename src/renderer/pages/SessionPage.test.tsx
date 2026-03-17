@@ -7,7 +7,7 @@ const mockDisconnect = vi.fn();
 
 const snapshot: SessionSnapshot = {
   status: 'paired',
-  config: { provider: 'openai', model: 'gpt-4o', tokensOffered: 1000, wantProvider: 'anthropic', wantModel: 'claude-3-5-sonnet', apiKey: 'x', authMethod: 'api_key', githubToken: '', inputTokensOffered: 0, outputTokensOffered: 0, advanced: false, proxyPort: 9100, proxyUrl: 'https://tokenhub.ngrok.io' },
+  config: { provider: 'openai', model: 'gpt-4o', tokensOffered: 1000, wantProvider: 'anthropic', wantModel: 'claude-3-5-sonnet', apiKey: 'x', authMethod: 'api_key', githubToken: '', inputTokensOffered: 0, outputTokensOffered: 0, advanced: false, proxyPort: 9100, proxyUrl: 'https://lmbase.ngrok.io' },
   pairing: { offerId: 'offer-1', tempKey: 'temp', proxyKey: 'proxy', peerUrl: 'https://peer.ngrok.io', peerProvider: 'anthropic', peerModel: 'claude-3-5-sonnet', tokensGranted: 1000, tokensToServe: 1000, inputTokensGranted: 0, outputTokensGranted: 0, inputTokensToServe: 0, outputTokensToServe: 0, advanced: false },
   tokensGrantedDone: 10,
   tokensToServeDone: 20,
@@ -41,7 +41,7 @@ describe('SessionPage', () => {
   it('sets up event listeners on mount', () => {
     render(<SessionPage snapshot={snapshot} />);
 
-    expect(window.tokenhub.session.onActivityLog).toHaveBeenCalled();
+    expect(window.lmbase.session.onActivityLog).toHaveBeenCalled();
   });
 
   it('calls disconnect when triggered', () => {
@@ -51,7 +51,7 @@ describe('SessionPage', () => {
     fireEvent.click(disconnectBtn);
     fireEvent.click(disconnectBtn);
 
-    expect(window.tokenhub.session.stop).toHaveBeenCalled();
+    expect(window.lmbase.session.stop).toHaveBeenCalled();
   });
 
   it('renders usage cards', () => {

@@ -1,6 +1,6 @@
-# TokenHub Desktop - Project Knowledge Base
+# LMbase Desktop - Project Knowledge Base
 
-**Project**: TokenHub P2P Token Exchange Desktop App  
+**Project**: LMbase P2P Token Exchange Desktop App  
 **Stack**: Electron + TypeScript + React + Vite  
 **Runtime**: Bun  
 
@@ -171,10 +171,10 @@ bun run make                  # Create distributables
 ## ENVIRONMENT
 
 ```bash
-TOKENHUB_SERVER=ws://localhost:8080    # WebSocket server URL
+LMBASE_SERVER=ws://localhost:8080    # WebSocket server URL
 NGROK_AUTHTOKEN=xxx                    # ngrok auth token
-TOKENHUB_LOG=~/tokenhub.log            # Log file path
-TOKENHUB_DEBUG=1                       # Enable debug logging
+LMBASE_LOG=~/lmbase.log            # Log file path
+LMBASE_DEBUG=1                       # Enable debug logging
 ```
 
 ---

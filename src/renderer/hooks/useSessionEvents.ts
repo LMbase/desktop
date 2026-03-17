@@ -15,8 +15,8 @@ export function useSessionEvents() {
       addActivity(activity);
     };
 
-    const unsubscribeSession = window.tokenhub.session.onSessionUpdate(handleSessionUpdate);
-    const unsubscribeActivity = window.tokenhub.session.onActivityLog(handleActivityLog);
+    const unsubscribeSession = window.lmbase.session.onSessionUpdate(handleSessionUpdate);
+    const unsubscribeActivity = window.lmbase.session.onActivityLog(handleActivityLog);
 
     return () => {
       unsubscribeSession();
@@ -25,7 +25,7 @@ export function useSessionEvents() {
   }, [setSession, addActivity]);
 
   const fetchSnapshot = async (): Promise<SessionSnapshot | null> => {
-    return await window.tokenhub.session.getSnapshot();
+    return await window.lmbase.session.getSnapshot();
   };
 
   return { fetchSnapshot };

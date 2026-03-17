@@ -1,13 +1,22 @@
-import type { FetchModelsResult, ValidateResult } from '../shared/contracts/providers';
+import type { ExchangeEstimateResult, FetchModelsResult, ValidateResult } from '../shared/contracts/providers';
 import type { ExchangeConfig, SessionSnapshot, ActivityEvent } from '../shared/contracts/session';
 import type { CopilotStatusEvent } from '../shared/contracts/ipc';
 
 declare global {
   interface Window {
-    tokenhub: {
+    lmbase: {
       providers: {
         fetchModels: (request: { provider: string; apiKey?: string }) => Promise<FetchModelsResult>;
         validateKey: (request: { provider: string; apiKey: string }) => Promise<ValidateResult>;
+        estimateExchange: (request: {
+          offeredProvider: string;
+          offeredModel: string;
+          wantedProvider: string;
+          wantedModel: string;
+          offeredTokens?: number;
+          offeredInputTokens?: number;
+          offeredOutputTokens?: number;
+        }) => Promise<ExchangeEstimateResult>;
       };
       auth: {
         startCopilotAuth: () => Promise<{ deviceCode: string; userCode: string; verificationUri: string }>;
@@ -24,7 +33,7 @@ declare global {
         start: (config: ExchangeConfig) => Promise<{ success: boolean; error?: string }>;
         stop: () => Promise<void>;
         getSnapshot: () => Promise<SessionSnapshot | null>;
-        onSessionUpdate: (callback: (snapshot: SessionSnapshot) => void) => () => void;
+        onSessionUpdate: (callback: (snapshot: SessionSnapshot | null) => void) => () => void;
         onActivityLog: (callback: (event: ActivityEvent) => void) => () => void;
       };
     };

@@ -5,7 +5,7 @@ vi.mock('electron', () => {
     app: {
       getPath: vi.fn((name: string) => `/tmp/electron-test/${name}`),
       getVersion: vi.fn(() => '1.0.0'),
-      getName: vi.fn(() => 'TokenHub Test'),
+      getName: vi.fn(() => 'LMbase Test'),
       whenReady: vi.fn(() => Promise.resolve()),
       on: vi.fn(),
       quit: vi.fn(),
@@ -48,5 +48,5 @@ vi.mock('electron', () => {
   };
 });
 
-process.env.TOKENHUB_SERVER = 'ws://localhost:8080';
+process.env.LMBASE_SERVER = 'ws://localhost:8080';
 process.env.NODE_ENV = 'test';

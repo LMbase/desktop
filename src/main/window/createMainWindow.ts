@@ -15,7 +15,7 @@ export function createMainWindow() {
     height: 800,
     minWidth: 1024,
     minHeight: 600,
-    title: 'TokenHub',
+    title: 'LMbase',
     webPreferences: {
       preload: path.join(moduleDir, 'preload.cjs'),
       contextIsolation: true,

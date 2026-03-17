@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('TokenHub Setup Flow', () => {
+test.describe('LMbase Setup Flow', () => {
   test('renders setup page', async ({ page }) => {
     await page.goto('http://localhost:5173');
-    await expect(page.getByText('TokenHub')).toBeVisible();
+    await expect(page.getByText('LMbase')).toBeVisible();
     await expect(page.getByText('P2P Token Exchange')).toBeVisible();
   });
 
@@ -22,13 +22,13 @@ test.describe('TokenHub Setup Flow', () => {
   });
 });
 
-test.describe('TokenHub Session Flow', () => {
+test.describe('LMbase Session Flow', () => {
   test('shows active session', async ({ page }) => {
     await page.goto('http://localhost:5173');
     
     // Setup would connect here in real test
     await page.evaluate(() => {
-      window.tokenhub.session.start({
+      window.lmbase.session.start({
         provider: 'openai',
         model: 'gpt-4',
         tokensOffered: 10000,

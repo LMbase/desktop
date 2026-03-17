@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Provider } from '../../shared/constants';
 
-type TokenHubWindow = Window & {
-  tokenhub: {
+type LMbaseWindow = Window & {
+  lmbase: {
     providers: {
       fetchModels: (request: { provider: string; apiKey?: string }) => Promise<{ models: string[]; message: string }>;
     };
@@ -53,7 +53,7 @@ interface UseAvailableModelsResult {
 export function useAvailableModels(
   provider: Provider | null
 ): UseAvailableModelsResult {
-  const tokenhub = (window as unknown as TokenHubWindow).tokenhub;
+  const lmbase = (window as unknown as LMbaseWindow).lmbase;
   const [models, setModels] = useState<ModelInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -90,7 +90,7 @@ export function useAvailableModels(
     setStatus('Loading server-supported models...');
 
     try {
-      const result = await tokenhub.providers.fetchModels({ provider });
+      const result = await lmbase.providers.fetchModels({ provider });
 
       if (result.models && result.models.length > 0) {
         applyModels(result.models);
@@ -120,7 +120,7 @@ export function useAvailableModels(
     setStatus('Fetching latest models...');
 
     try {
-      const result = await tokenhub.providers.fetchModels({ provider, apiKey: apiKeyValue });
+      const result = await lmbase.providers.fetchModels({ provider, apiKey: apiKeyValue });
       if (result.models.length > 0) {
         applyModels(result.models);
         setStatus(`Loaded ${result.models.length} live models`);
@@ -128,7 +128,7 @@ export function useAvailableModels(
         return;
       }
 
-      const fallback = await tokenhub.providers.fetchModels({ provider });
+      const fallback = await lmbase.providers.fetchModels({ provider });
       if (fallback.models.length > 0) {
         applyModels(fallback.models);
         setError(`${result.message}. Using server-supported model list.`);

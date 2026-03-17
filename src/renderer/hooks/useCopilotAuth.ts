@@ -30,7 +30,7 @@ export function useCopilotAuth(): UseCopilotAuthResult {
     setCopilotAuth({ status: 'pending', error: '' });
 
     try {
-      const result = await window.tokenhub.auth.startCopilotAuth();
+      const result = await window.lmbase.auth.startCopilotAuth();
 
       setCopilotAuth({
         status: 'pending',
@@ -40,7 +40,7 @@ export function useCopilotAuth(): UseCopilotAuthResult {
       });
 
       clearSubscription();
-      unsubscribeStatus = window.tokenhub.auth.onCopilotStatus(handleStatusUpdate);
+      unsubscribeStatus = window.lmbase.auth.onCopilotStatus(handleStatusUpdate);
     } catch (err) {
       setCopilotAuth({
         status: 'error',
@@ -51,7 +51,7 @@ export function useCopilotAuth(): UseCopilotAuthResult {
 
   const cancelAuth = useCallback(async () => {
     try {
-      await window.tokenhub.auth.cancelCopilotAuth();
+      await window.lmbase.auth.cancelCopilotAuth();
       clearSubscription();
       setCopilotAuth({
         status: 'cancelled',
@@ -66,7 +66,7 @@ export function useCopilotAuth(): UseCopilotAuthResult {
 
   const openBrowser = useCallback(() => {
     if (copilotAuth.verificationUri) {
-      void window.tokenhub.auth.openExternal(copilotAuth.verificationUri);
+      void window.lmbase.auth.openExternal(copilotAuth.verificationUri);
     }
   }, [copilotAuth.verificationUri]);
 

@@ -14,15 +14,15 @@ beforeEach(() => {
   estimateExchangeMock.mockReset();
   estimateExchangeMock.mockResolvedValue({ estimatedReceivedTokens: 7600, message: 'OK' });
   const globalWindow = window as unknown as {
-    tokenhub?: {
+    lmbase?: {
       providers?: {
         estimateExchange?: typeof estimateExchangeMock;
       };
     };
   };
-  globalWindow.tokenhub ??= {};
-  globalWindow.tokenhub.providers ??= {};
-  globalWindow.tokenhub.providers.estimateExchange = estimateExchangeMock;
+  globalWindow.lmbase ??= {};
+  globalWindow.lmbase.providers ??= {};
+  globalWindow.lmbase.providers.estimateExchange = estimateExchangeMock;
 });
 
 describe('ReceiveSummary', () => {

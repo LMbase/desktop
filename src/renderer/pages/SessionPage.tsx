@@ -29,7 +29,7 @@ export function SessionPage({ snapshot = EMPTY_SNAPSHOT }: SessionPageProps) {
   const wsConnected = snapshot.status === 'connecting' || snapshot.status === 'paired';
 
   useEffect(() => {
-    const unsubscribe = window.tokenhub.session.onActivityLog((activity: ActivityEvent) => {
+    const unsubscribe = window.lmbase.session.onActivityLog((activity: ActivityEvent) => {
       setActivities((prev) => [...prev, activity]);
     });
 
@@ -39,7 +39,7 @@ export function SessionPage({ snapshot = EMPTY_SNAPSHOT }: SessionPageProps) {
   }, []);
 
   const handleDisconnect = useCallback(() => {
-    void window.tokenhub.session.stop();
+    void window.lmbase.session.stop();
   }, []);
 
   const tunnelUrl = snapshot.pairing?.peerUrl || snapshot.config?.proxyUrl || '';

@@ -31,13 +31,13 @@
 ## IPC API REFERENCE
 
 ```typescript
-window.tokenhub.providers.getModels(provider)
-window.tokenhub.auth.startCopilotAuth()
-window.tokenhub.session.start(config)
-window.tokenhub.session.stop()
-window.tokenhub.session.getSnapshot()
-window.tokenhub.session.onSessionUpdate(fn)
-window.tokenhub.settings.get(key)
+window.lmbase.providers.getModels(provider)
+window.lmbase.auth.startCopilotAuth()
+window.lmbase.session.start(config)
+window.lmbase.session.stop()
+window.lmbase.session.getSnapshot()
+window.lmbase.session.onSessionUpdate(fn)
+window.lmbase.settings.get(key)
 ```
 
 ---

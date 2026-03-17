@@ -7,11 +7,11 @@ export function App() {
   const [snapshot, setSnapshot] = useState<SessionSnapshot | null>(null);
 
   useEffect(() => {
-    const unsubscribe = window.tokenhub.session.onSessionUpdate((newSnapshot) => {
+    const unsubscribe = window.lmbase.session.onSessionUpdate((newSnapshot: SessionSnapshot | null) => {
       setSnapshot(newSnapshot);
     });
 
-    window.tokenhub.session.getSnapshot().then((initial) => {
+    window.lmbase.session.getSnapshot().then((initial: SessionSnapshot | null) => {
       if (initial) setSnapshot(initial);
     });
 

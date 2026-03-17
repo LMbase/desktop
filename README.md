@@ -1,8 +1,10 @@
-# TokenHub Desktop
+# LMbase Desktop
 
-TokenHub Desktop lets you exchange LLM API access with another person.
+![LMbase Desktop](lmbase.png)
 
-You choose what you are willing to share, choose what you want in return, and TokenHub creates a temporary local proxy so you can use your matched peer's API through a copy-ready endpoint.
+LMbase Desktop lets you exchange LLM API access with another person.
+
+You choose what you are willing to share, choose what you want in return, and LMbase creates a temporary local proxy so you can use your matched peer's API through a copy-ready endpoint.
 
 ## What You Can Do
 
@@ -27,7 +29,7 @@ You will usually need:
 - An account for the provider you want to share
 - A valid API key, or GitHub login for Copilot OAuth
 - Internet access
-- Access to a running TokenHub pairing service
+- Access to a running LMbase pairing service
 
 Your credentials stay on your machine. The app is designed to keep provider secrets local and expose only the temporary proxy details needed for the live exchange.
 
@@ -52,13 +54,13 @@ On the right side of the setup screen:
 - Pick the provider you want to receive access to
 - Pick the model you want to use
 
-TokenHub shows an estimated token return based on current provider pricing.
+LMbase shows an estimated token return based on current provider pricing.
 
 ### 3. Start matching
 
 Click `Find Match`.
 
-If your setup is valid, TokenHub:
+If your setup is valid, LMbase:
 
 - Validates your credentials when needed
 - Connects to the pairing service
@@ -81,13 +83,13 @@ When a match is active, the session screen shows:
 1. Offer `OpenAI / gpt-4o` with a token budget
 2. Request `Anthropic / claude-3-5-sonnet`
 3. Click `Find Match`
-4. Wait for TokenHub to pair you with someone compatible
+4. Wait for LMbase to pair you with someone compatible
 5. Copy the generated endpoint snippet
 6. Send requests through the local proxy until the session ends or the budget is exhausted
 
 ## Notes
 
-- The exact number of tokens you receive can differ from the number you offer because TokenHub estimates exchanges using provider pricing
+- The exact number of tokens you receive can differ from the number you offer because LMbase estimates exchanges using provider pricing
 - Some providers may require different authentication flows
 - The proxy endpoint is temporary and tied to the active session
 - You can disconnect a session at any time from the session screen
