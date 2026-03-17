@@ -1,0 +1,46 @@
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-6);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-default);
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.status-bar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.status-bar-item strong {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.status-bar-item .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-bar-item .dot.success {
+  background: var(--success);
+}
+
+.status-bar-item .dot.warning {
+  background: var(--warning);
+}
+
+.status-bar-item .dot.error {
+  background: var(--error);
+}
+
+.status-bar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}

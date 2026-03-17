@@ -1,0 +1,100 @@
+.connection-section {
+  margin-bottom: var(--space-6);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+}
+
+.status-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+}
+
+.status-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-default);
+}
+
+.status-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.status-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.status-value.success {
+  color: var(--success);
+}
+
+.timer-display {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-6);
+}
+
+.disconnect-section {
+  margin-top: auto;
+}
+
+.btn-disconnect {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--error);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-disconnect:hover {
+  background: #fee2e2;
+  border-color: var(--error);
+}
+
+.btn-disconnect.confirm {
+  background: var(--error);
+  color: white;
+  border-color: var(--error);
+}
+
+.btn-disconnect.confirm:hover {
+  background: #b91c1c;
+}
+
+.session-column {
+  background: var(--bg-surface);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+}

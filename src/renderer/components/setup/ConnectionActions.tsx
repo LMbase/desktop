@@ -1,0 +1,150 @@
+import { useAppStore } from '../../store/appStore';
+import { validateSetupForm } from '../../lib/validators';
+import { mapToExchangeConfig } from '../../lib/formMappers';
+
+type TokenHubWindow = Window & {
+  tokenhub: {
+    providers: {
+      validateKey: (request: { provider: string; apiKey: string }) => Promise<{ valid: boolean; message: string }>;
+    };
+    session: {
+      start: (config: ReturnType<typeof mapToExchangeConfig>) => Promise<{ success: boolean; error?: string }>;
+    };
+  };
+};
+
+export function ConnectionActions() {
+  const tokenhub = (window as unknown as TokenHubWindow).tokenhub;
+  const offer = useAppStore((state) => state.offer);
+  const receive = useAppStore((state) => state.receive);
+  const authMethod = useAppStore((state) => state.authMethod);
+  const apiKey = useAppStore((state) => state.apiKey);
+  const copilotAuth = useAppStore((state) => state.copilotAuth);
+  const setErrors = useAppStore((state) => state.setErrors);
+  const setConnecting = useAppStore((state) => state.setConnecting);
+  const isConnecting = useAppStore((state) => state.isConnecting);
+
+  const isFormValid = () => {
+    const errors = validateSetupForm(offer, receive, authMethod, apiKey);
+    if (errors.length > 0) {
+      setErrors(errors);
+      return false;
+    }
+
+    if (authMethod === 'copilot' && copilotAuth.status !== 'success') {
+      setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
+      return false;
+    }
+
+    setErrors([]);
+    return true;
+  };
+
+  const handleConnect = async () => {
+    if (!isFormValid()) return;
+
+    setConnecting(true);
+
+    try {
+      const config = mapToExchangeConfig(
+        offer,
+        receive,
+        authMethod,
+        apiKey,
+        authMethod === 'copilot' ? copilotAuth.deviceCode : ''
+      );
+
+      if (authMethod === 'api_key' && offer.provider) {
+        const validation = await tokenhub.providers.validateKey({
+          provider: offer.provider,
+          apiKey,
+        });
+
+        if (!validation.valid) {
+          setErrors([{ field: 'apiKey', message: validation.message }]);
+          return;
+        }
+      }
+
+      const result = await tokenhub.session.start(config);
+
+      if (!result.success) {
+        setErrors([{ field: 'connection', message: result.error || 'Failed to start session' }]);
+      }
+    } catch (err) {
+      setErrors([
+        {
+          field: 'connection',
+          message: err instanceof Error ? err.message : 'Connection failed',
+        },
+      ]);
+    } finally {
+      setConnecting(false);
+    }
+  };
+
+  const connectionError = useAppStore((state) =>
+    state.errors.find((e) => e.field === 'connection')?.message
+  );
+
+  const authError = useAppStore((state) =>
+    state.errors.find((e) => e.field === 'auth')?.message
+  );
+
+  return (
+    <div className="cta-section">
+      {connectionError && (
+        <div className="connection-error">
+          <div className="error-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <span>{connectionError}</span>
+        </div>
+      )}
+
+      {authError && (
+        <div className="connection-error">
+          <div className="error-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <span>{authError}</span>
+        </div>
+      )}
+
+      <button
+        className={`btn-primary ${isConnecting ? 'loading' : ''}`}
+        onClick={handleConnect}
+        disabled={isConnecting}
+      >
+        {isConnecting ? 'Connecting...' : 'Find Match'}
+      </button>
+
+      <style>{`
+        .connection-error {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          padding: var(--space-3) var(--space-4);
+          background: var(--error-bg);
+          border: 1px solid var(--error-border);
+          border-radius: var(--radius-lg);
+          margin-bottom: var(--space-4);
+          font-size: var(--text-sm);
+          color: var(--error);
+        }
+        
+        .error-icon {
+          flex-shrink: 0;
+        }
+      `}</style>
+    </div>
+  );
+}

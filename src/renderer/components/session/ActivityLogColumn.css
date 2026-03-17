@@ -1,0 +1,44 @@
+.activity-log {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.activity-item {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.activity-time {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.activity-message {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.activity-message.success {
+  color: var(--success);
+}
+
+.activity-message.error {
+  color: var(--error);
+}
+
+.activity-message.info {
+  color: var(--info);
+}
+
+.activity-message.warning {
+  color: var(--warning);
+}
+
+.activity-empty {
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}
