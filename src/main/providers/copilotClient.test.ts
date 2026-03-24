@@ -36,4 +36,22 @@ describe('copilotClient', () => {
 
     await expect(client.fetchProviderModels('cp-token')).resolves.toEqual({ models: ['gpt-4o'], message: 'OK' });
   });
+
+  it('preserves provider models when server support lookup is unavailable', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        status: 200,
+        json: vi.fn().mockResolvedValue({
+          data: [{ id: 'gpt-4o', capabilities: { type: 'chat' } }],
+        }),
+      })
+      .mockRejectedValueOnce(new Error('fetch failed'));
+    const client = new CopilotClient(fetchMock);
+
+    await expect(client.fetchProviderModels('cp-token')).resolves.toEqual({
+      models: ['gpt-4o'],
+      message: 'Using provider models without server filtering: Network error: fetch failed',
+    });
+  });
 });

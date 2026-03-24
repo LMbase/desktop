@@ -32,4 +32,20 @@ describe('anthropicClient', () => {
     const client = new AnthropicClient(fetchMock);
     await expect(client.validateKey('bad')).resolves.toEqual({ valid: false, message: 'Invalid API key' });
   });
+
+  it('preserves provider models when server support lookup is unavailable', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        status: 200,
+        json: vi.fn().mockResolvedValue({ data: [{ id: 'claude-sonnet-4-6' }] }),
+      })
+      .mockRejectedValueOnce(new Error('fetch failed'));
+
+    const client = new AnthropicClient(fetchMock);
+    await expect(client.fetchProviderModels('ak-test')).resolves.toEqual({
+      models: ['claude-sonnet-4-6'],
+      message: 'Using provider models without server filtering: Network error: fetch failed',
+    });
+  });
 });

@@ -2,12 +2,11 @@ import { PROVIDER_CONFIG } from '@shared/constants';
 import type { FetchModelsResult, ValidateResult } from '@shared/contracts/providers';
 import {
   buildAuthHeaders,
-  intersectPreservingOrder,
   type FetchLike,
   requestJson,
   type ProviderClient,
 } from './providerClient';
-import { fetchServerSupportedModels } from './serverModelCatalog';
+import { fetchServerSupportedModels, filterProviderModelsByServerSupport } from './serverModelCatalog';
 
 async function extractGeminiModels(payload: unknown): Promise<string[]> {
   if (!payload || typeof payload !== 'object' || !Array.isArray((payload as { models?: unknown }).models)) {
@@ -78,15 +77,6 @@ export class GeminiClient implements ProviderClient {
       return { models: [], message: 'No models returned by provider' };
     }
 
-    const supported = await fetchServerSupportedModels(this.provider, this.fetchImpl);
-    if (supported.models.length === 0) {
-      return supported;
-    }
-
-    const filtered = await intersectPreservingOrder(models, supported.models);
-    if (filtered.length === 0) {
-      return { models: [], message: 'No provider models supported by server' };
-    }
-    return { models: filtered, message: 'OK' };
+    return filterProviderModelsByServerSupport(this.provider, models, this.fetchImpl);
   }
 }

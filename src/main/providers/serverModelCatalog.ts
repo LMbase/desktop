@@ -1,5 +1,10 @@
-import type { ExchangeEstimateResult, FetchModelsResult } from '@shared/contracts/providers';
-import { filterUniqueStrings, type FetchLike, requestJson } from './providerClient';
+import type { ExchangeEstimateResult, FetchModelsResult, Provider } from '@shared/contracts/providers';
+import {
+  filterUniqueStrings,
+  type FetchLike,
+  intersectPreservingOrder,
+  requestJson,
+} from './providerClient';
 
 export async function resolveServerHttpBaseUrl(): Promise<string> {
   const serverUrl = (process.env.LMBASE_SERVER ?? 'ws://localhost:8080').trim();
@@ -42,6 +47,33 @@ export async function fetchServerSupportedModels(
     return { models: [], message: `No supported models configured on server for ${provider}` };
   }
   return { models, message: 'OK' };
+}
+
+export async function filterProviderModelsByServerSupport(
+  provider: Provider,
+  providerModels: string[],
+  fetchImpl: FetchLike = globalThis.fetch as FetchLike,
+): Promise<FetchModelsResult> {
+  const supported = await fetchServerSupportedModels(provider, fetchImpl);
+  if (supported.models.length === 0) {
+    if (isServerModelLookupFailure(supported.message)) {
+      return {
+        models: providerModels,
+        message: `Using provider models without server filtering: ${supported.message}`,
+      };
+    }
+    return supported;
+  }
+
+  const filtered = await intersectPreservingOrder(providerModels, supported.models);
+  if (filtered.length === 0) {
+    return { models: [], message: 'No provider models supported by server' };
+  }
+  return { models: filtered, message: 'OK' };
+}
+
+function isServerModelLookupFailure(message: string): boolean {
+  return message.startsWith('Network error:') || message.startsWith('Server model list fetch failed');
 }
 
 interface ExchangeEstimateRequest {
