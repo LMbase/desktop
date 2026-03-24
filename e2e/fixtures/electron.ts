@@ -13,6 +13,24 @@ type ElectronFixtures = {
   page: Page;
 };
 
+type CoverageFunctionRange = {
+  count: number;
+  endOffset: number;
+  startOffset: number;
+};
+
+type CoverageFunction = {
+  functionName: string;
+  isBlockCoverage?: boolean;
+  ranges: CoverageFunctionRange[];
+};
+
+type RendererCoverageEntry = {
+  functions?: CoverageFunction[];
+  scriptId?: string;
+  url?: string;
+};
+
 export const test = base.extend<ElectronFixtures>({
   electronApp: async ({}, use) => {
     const electronApp = await electron.launch({
@@ -33,19 +51,22 @@ export const test = base.extend<ElectronFixtures>({
   },
   page: async ({ electronApp }, use, testInfo) => {
     const page = await electronApp.firstWindow();
+    const webContentsId = await electronApp.evaluate(({ BrowserWindow }) => {
+      const [window] = BrowserWindow.getAllWindows();
+      return window?.webContents.id ?? null;
+    });
 
-    if (e2eCoverageEnabled) {
-      await page.coverage.startJSCoverage({
-        reportAnonymousScripts: false,
-        resetOnNavigation: false,
-      });
+    if (e2eCoverageEnabled && webContentsId !== null) {
+      await startRendererCoverage(electronApp, webContentsId);
+      // Reload once so the renderer bundle executes after precise coverage starts.
+      await page.reload({ waitUntil: 'domcontentloaded' });
     }
 
     await page.waitForLoadState('domcontentloaded');
     await use(page);
 
-    if (e2eCoverageEnabled) {
-      const coverageEntries = await page.coverage.stopJSCoverage();
+    if (e2eCoverageEnabled && webContentsId !== null) {
+      const coverageEntries = await stopRendererCoverage(electronApp, webContentsId);
       await persistRendererCoverage(testInfo, coverageEntries);
     }
   },
@@ -66,4 +87,46 @@ async function persistRendererCoverage(testInfo: TestInfo, coverageEntries: unkn
 
 function sanitizeFileName(input: string): string {
   return input.replace(/[^a-z0-9._-]+/gi, '-').toLowerCase();
+}
+
+async function startRendererCoverage(electronApp: ElectronApplication, webContentsId: number): Promise<void> {
+  await electronApp.evaluate(async ({ webContents }, targetId) => {
+    const contents = webContents.fromId(targetId);
+    if (!contents) {
+      throw new Error(`Missing webContents for id ${targetId}`);
+    }
+
+    if (!contents.debugger.isAttached()) {
+      contents.debugger.attach('1.3');
+    }
+
+    await contents.debugger.sendCommand('Profiler.enable');
+    await contents.debugger.sendCommand('Profiler.startPreciseCoverage', {
+      callCount: true,
+      detailed: true,
+    });
+  }, webContentsId);
+}
+
+async function stopRendererCoverage(
+  electronApp: ElectronApplication,
+  webContentsId: number,
+): Promise<RendererCoverageEntry[]> {
+  return await electronApp.evaluate(async ({ webContents }, targetId) => {
+    const contents = webContents.fromId(targetId);
+    if (!contents) {
+      return [];
+    }
+
+    if (!contents.debugger.isAttached()) {
+      return [];
+    }
+
+    const { result } = await contents.debugger.sendCommand('Profiler.takePreciseCoverage');
+    await contents.debugger.sendCommand('Profiler.stopPreciseCoverage');
+    await contents.debugger.sendCommand('Profiler.disable');
+    contents.debugger.detach();
+
+    return result as RendererCoverageEntry[];
+  }, webContentsId);
 }

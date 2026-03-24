@@ -1,6 +1,18 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useAppStore } from './appStore';
+import {
+  selectActivityLog,
+  selectApiKey,
+  selectAuthMethod,
+  selectCopilotAuth,
+  selectErrors,
+  selectIsConnecting,
+  selectOffer,
+  selectReceive,
+  selectSession,
+  selectShowAdvanced,
+  useAppStore,
+} from './appStore';
 
 describe('appStore', () => {
   beforeEach(() => {
@@ -101,6 +113,40 @@ describe('appStore', () => {
       expect(result.current.authMethod).toBe('copilot');
     });
 
+    it('should preserve github copilot selection in copilot mode and clear it when switching back', () => {
+      const { result } = renderHook(() => useAppStore());
+
+      act(() => {
+        result.current.setOfferProvider('github-copilot');
+        result.current.setOfferModel('gpt-4o');
+        result.current.setCopilotAuth({
+          status: 'success',
+          deviceCode: 'device-123',
+          userCode: 'ABCD-1234',
+          verificationUri: 'https://github.com/login/device',
+        });
+        result.current.setAuthMethod('copilot');
+      });
+
+      expect(result.current.offer.provider).toBe('github-copilot');
+      expect(result.current.offer.model).toBe('gpt-4o');
+      expect(result.current.copilotAuth.status).toBe('success');
+
+      act(() => {
+        result.current.setAuthMethod('api_key');
+      });
+
+      expect(result.current.offer.provider).toBeNull();
+      expect(result.current.offer.model).toBe('');
+      expect(result.current.copilotAuth).toMatchObject({
+        status: 'idle',
+        deviceCode: '',
+        userCode: '',
+        verificationUri: '',
+        error: '',
+      });
+    });
+
     it('should set api key', () => {
       const { result } = renderHook(() => useAppStore());
       
@@ -190,6 +236,55 @@ describe('appStore', () => {
       });
       
       expect(result.current.errors).toHaveLength(1);
+    });
+  });
+
+  describe('ui state and selectors', () => {
+    it('should update advanced state and expose store slices through selectors', () => {
+      const { result } = renderHook(() => useAppStore());
+
+      const snapshot = {
+        status: 'paired' as const,
+        config: null,
+        pairing: null,
+      };
+
+      act(() => {
+        result.current.setOfferProvider('openai');
+        result.current.setOfferModel('gpt-4o');
+        result.current.setOfferAdvanced(true);
+        result.current.setReceiveProvider('anthropic');
+        result.current.setReceiveModel('claude-3-5-sonnet-20241022');
+        result.current.setApiKey('sk-test-123');
+        result.current.setConnecting(true);
+        result.current.toggleAdvanced();
+        result.current.setSession(snapshot);
+        result.current.addActivity({
+          timestamp: Date.now(),
+          type: 'info',
+          message: 'Selector test event',
+        });
+        result.current.setErrors([{ field: 'provider', message: 'Required' }]);
+      });
+
+      const state = useAppStore.getState();
+      expect(selectOffer(state)).toMatchObject({
+        provider: 'openai',
+        model: 'gpt-4o',
+        advanced: true,
+      });
+      expect(selectReceive(state)).toMatchObject({
+        provider: 'anthropic',
+        model: 'claude-3-5-sonnet-20241022',
+      });
+      expect(selectAuthMethod(state)).toBe('api_key');
+      expect(selectApiKey(state)).toBe('sk-test-123');
+      expect(selectCopilotAuth(state)).toEqual(state.copilotAuth);
+      expect(selectSession(state)).toEqual(snapshot);
+      expect(selectActivityLog(state)).toHaveLength(1);
+      expect(selectErrors(state)).toEqual([{ field: 'provider', message: 'Required' }]);
+      expect(selectIsConnecting(state)).toBe(true);
+      expect(selectShowAdvanced(state)).toBe(true);
     });
   });
 
