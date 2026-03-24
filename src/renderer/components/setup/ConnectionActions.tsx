@@ -24,15 +24,17 @@ export function ConnectionActions() {
   const setErrors = useAppStore((state) => state.setErrors);
   const setConnecting = useAppStore((state) => state.setConnecting);
   const isConnecting = useAppStore((state) => state.isConnecting);
+  const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
+  const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
+  const isSubmitReady = validationErrors.length === 0 && !requiresCopilotAuth;
 
   const isFormValid = () => {
-    const errors = validateSetupForm(offer, receive, authMethod, apiKey);
-    if (errors.length > 0) {
-      setErrors(errors);
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
       return false;
     }
 
-    if (authMethod === 'copilot' && copilotAuth.status !== 'success') {
+    if (requiresCopilotAuth) {
       setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
       return false;
     }
@@ -125,7 +127,7 @@ export function ConnectionActions() {
         className={`btn-primary ${isConnecting ? 'loading' : ''}`}
         data-testid={setupTestIds.findMatchButton}
         onClick={handleConnect}
-        disabled={isConnecting}
+        disabled={isConnecting || !isSubmitReady}
       >
         {isConnecting ? 'Connecting...' : 'Find Match'}
       </button>
