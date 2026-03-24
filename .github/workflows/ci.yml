@@ -49,10 +49,10 @@ jobs:
       - name: Build coverage comment
         if: always()
         env:
-          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
-          VITEST_OUTCOME: ${{ steps.vitest.outcome }}
-          E2E_OUTCOME: ${{ steps.e2e.outcome }}
-          COVERAGE_OUTCOME: ${{ steps.coverage_thresholds.outcome }}
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.conclusion }}
+          VITEST_OUTCOME: ${{ steps.vitest.conclusion }}
+          E2E_OUTCOME: ${{ steps.e2e.conclusion }}
+          COVERAGE_OUTCOME: ${{ steps.coverage_thresholds.conclusion }}
         run: bun run coverage:comment
 
       - name: Upload coverage artifacts
@@ -104,10 +104,10 @@ jobs:
       - name: Finalize required checks
         if: always()
         env:
-          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
-          VITEST_OUTCOME: ${{ steps.vitest.outcome }}
-          E2E_OUTCOME: ${{ steps.e2e.outcome }}
-          COVERAGE_OUTCOME: ${{ steps.coverage_thresholds.outcome }}
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.conclusion }}
+          VITEST_OUTCOME: ${{ steps.vitest.conclusion }}
+          E2E_OUTCOME: ${{ steps.e2e.conclusion }}
+          COVERAGE_OUTCOME: ${{ steps.coverage_thresholds.conclusion }}
         run: |
           failures=0
 
