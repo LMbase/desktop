@@ -6,6 +6,7 @@ import {
   getProviderIconLetter,
   getProviderCssClass,
 } from '../../lib/formMappers';
+import { setupTestIds } from '../../lib/testIds';
 import { CopilotIcon } from './CopilotIcon';
 
 interface ProviderCardGridProps {
@@ -30,11 +31,16 @@ export function ProviderCardGrid({ side }: ProviderCardGridProps) {
       : ['openai', 'anthropic', 'gemini', 'github-copilot'];
 
   return (
-    <div className="provider-grid">
+    <div className="provider-grid" data-testid={setupTestIds.providerGrid(side)}>
       {providers.map((provider) => (
         <button
+          type="button"
           key={provider}
           className={`provider-btn ${selectedProvider === provider ? 'selected' : ''}`}
+          data-testid={setupTestIds.providerCard(side, provider)}
+          data-provider={provider}
+          data-selected={selectedProvider === provider ? 'true' : 'false'}
+          aria-pressed={selectedProvider === provider}
           onClick={() => setProvider(provider)}
         >
           <div className={`provider-icon ${getProviderCssClass(provider)}`}>

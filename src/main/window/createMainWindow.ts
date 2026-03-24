@@ -10,6 +10,7 @@ declare const MAIN_WINDOW_VITE_NAME: string;
 const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 
 export function createMainWindow() {
+  const rendererSandboxEnabled = process.env.LMBASE_E2E !== '1';
   const window = new BrowserWindow({
     width: 1280,
     height: 800,
@@ -20,7 +21,7 @@ export function createMainWindow() {
       preload: path.join(moduleDir, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true,
+      sandbox: rendererSandboxEnabled,
     },
   });
 

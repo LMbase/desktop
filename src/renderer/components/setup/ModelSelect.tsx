@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAppStore } from '../../store/appStore';
 import { useAvailableModels } from '../../hooks/useAvailableModels';
 import { hasFieldError } from '../../lib/validators';
+import { setupTestIds } from '../../lib/testIds';
 
 interface ModelSelectProps {
   side: 'offer' | 'receive';
@@ -22,7 +23,7 @@ export function ModelSelect({ side }: ModelSelectProps) {
   const oppositeProvider = side === 'offer' ? receive.provider : offer.provider;
   const oppositeModel = side === 'offer' ? receive.model : offer.model;
 
-  const { models, isLoading, isRefreshing, error, status, fetchLatest } = useAvailableModels(provider);
+  const { models, isLoading, isRefreshing, error, status, source, fetchLatest } = useAvailableModels(provider);
   const availableModels =
     provider && provider === oppositeProvider && oppositeModel
       ? models.filter((model) => model.id !== oppositeModel)
@@ -53,6 +54,9 @@ export function ModelSelect({ side }: ModelSelectProps) {
       <div className="select-wrapper">
         <select
           className={`form-select ${hasError ? 'error' : ''}`}
+          data-testid={setupTestIds.modelSelect(side)}
+          data-provider={provider ?? ''}
+          data-side={side}
           value={selectedModel}
           onChange={(e) => setModel(e.target.value)}
           disabled={!provider || isLoading}
@@ -71,8 +75,26 @@ export function ModelSelect({ side }: ModelSelectProps) {
           ))}
         </select>
       </div>
-      {status && !error && <div className="token-input-suffix">{status}</div>}
-      {error && <div className="form-error">{error}</div>}
+      {status && !error && (
+        <div
+          className="token-input-suffix"
+          data-testid={setupTestIds.modelStatus(side)}
+          data-source={source ?? 'unknown'}
+          aria-live="polite"
+        >
+          {status}
+        </div>
+      )}
+      {error && (
+        <div
+          className="form-error"
+          data-testid={setupTestIds.modelError(side)}
+          data-source={source ?? 'unknown'}
+          role="alert"
+        >
+          {error}
+        </div>
+      )}
     </div>
   );
 }

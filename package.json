@@ -6,6 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "bunx electron-forge start",
+    "build:main": "bunx vite build --config vite.main.config.ts",
+    "build:preload": "bunx vite build --config vite.preload.config.ts",
+    "build:renderer": "bunx vite build --config vite.renderer.config.ts",
+    "build:app": "bun run build:main && bun run build:preload && bun run build:renderer",
     "build": "bunx electron-forge package",
     "make": "bunx electron-forge make",
     "test": "bunx vitest",

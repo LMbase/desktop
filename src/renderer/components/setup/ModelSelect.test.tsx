@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { setupTestIds } from '../../lib/testIds';
 import { ModelSelect } from './ModelSelect';
 
 const fetchLatest = vi.fn(async () => undefined);
@@ -47,6 +48,7 @@ describe('ModelSelect', () => {
   it('shows fetch latest button only on offer side', () => {
     const { rerender } = render(<ModelSelect side="offer" />);
     expect(screen.getByRole('button', { name: /fetch latest models/i })).toBeInTheDocument();
+    expect(screen.getByTestId(setupTestIds.modelStatus('offer'))).toHaveAttribute('data-source', 'supported');
 
     rerender(<ModelSelect side="receive" />);
     expect(screen.queryByRole('button', { name: /fetch latest models/i })).toBeNull();

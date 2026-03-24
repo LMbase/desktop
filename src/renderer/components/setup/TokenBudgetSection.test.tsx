@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { setupTestIds } from '../../lib/testIds';
 import { TokenBudgetSection } from './TokenBudgetSection';
 
 vi.mock('../../store/appStore', () => ({
@@ -48,7 +49,7 @@ describe('TokenBudgetSection', () => {
 
     render(<TokenBudgetSection />);
     
-    expect(screen.getByPlaceholderText('10,000')).toBeInTheDocument();
+    expect(screen.getByTestId(setupTestIds.tokenAmountInput)).toBeInTheDocument();
     expect(screen.getByText('tokens')).toBeInTheDocument();
   });
 
@@ -65,7 +66,7 @@ describe('TokenBudgetSection', () => {
 
     render(<TokenBudgetSection />);
     
-    const input = screen.getByPlaceholderText('10,000');
+    const input = screen.getByTestId(setupTestIds.tokenAmountInput);
     fireEvent.change(input, { target: { value: '50000' } });
     
     expect(mockSetOfferTokens).toHaveBeenCalledWith(50000);

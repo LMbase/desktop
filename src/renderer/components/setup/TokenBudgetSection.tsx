@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useAppStore } from '../../store/appStore';
 import { formatTokenInput, parseTokenInput, hasFieldError } from '../../lib/validators';
+import { setupTestIds } from '../../lib/testIds';
 
 export function TokenBudgetSection() {
   const offer = useAppStore((state) => state.offer);
@@ -59,6 +60,7 @@ export function TokenBudgetSection() {
         <input
           type="text"
           className={`token-input-large ${tokensError ? 'error' : ''}`}
+          data-testid={setupTestIds.tokenAmountInput}
           value={displayValue}
           onChange={handleTokensChange}
           placeholder="10,000"
@@ -67,6 +69,7 @@ export function TokenBudgetSection() {
       </div>
 
       <button
+        type="button"
         className={`advanced-link ${showAdvanced ? 'expanded' : ''}`}
         onClick={toggleAdvanced}
       >

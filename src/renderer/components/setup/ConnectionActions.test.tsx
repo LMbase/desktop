@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { setupTestIds } from '../../lib/testIds';
 import { ConnectionActions } from './ConnectionActions';
 
 const setErrors = vi.fn();
@@ -28,7 +29,7 @@ describe('ConnectionActions', () => {
 
   it('validates key before starting session', async () => {
     render(<ConnectionActions />);
-    fireEvent.click(screen.getByRole('button', { name: /find match/i }));
+    fireEvent.click(screen.getByTestId(setupTestIds.findMatchButton));
 
     await waitFor(() => expect(window.lmbase.providers.validateKey).toHaveBeenCalled());
     expect(window.lmbase.session.start).toHaveBeenCalled();
@@ -38,7 +39,7 @@ describe('ConnectionActions', () => {
     vi.mocked(window.lmbase.providers.validateKey).mockResolvedValue({ valid: false, message: 'Invalid API key' });
 
     render(<ConnectionActions />);
-    fireEvent.click(screen.getByRole('button', { name: /find match/i }));
+    fireEvent.click(screen.getByTestId(setupTestIds.findMatchButton));
 
     await waitFor(() => expect(setErrors).toHaveBeenCalledWith([{ field: 'apiKey', message: 'Invalid API key' }]));
     expect(window.lmbase.session.start).not.toHaveBeenCalled();

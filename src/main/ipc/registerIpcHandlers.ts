@@ -4,9 +4,14 @@ import { registerSessionHandlers, type SessionController } from './sessionHandle
 import { registerSettingsHandlers } from './settingsHandlers';
 import type { CopilotStatusEvent } from '../../shared/contracts/ipc';
 import type { ActivityEvent, SessionSnapshot } from '../../shared/contracts/session';
+import type { ProviderRegistry } from '../providers/providerRegistry';
 
 interface RegisterIpcHandlersOptions {
   sessionController?: SessionController;
+  providerRegistry?: Pick<
+    ProviderRegistry,
+    'fetchProviderModels' | 'fetchPublicProviderModels' | 'validateKey' | 'estimateExchange'
+  >;
   auth?: {
     deviceFlow?: CopilotDeviceFlow;
     emitStatus?: (payload: CopilotStatusEvent) => void;
@@ -31,7 +36,9 @@ function createNoopSessionController(): SessionController {
 
 export function registerIpcHandlers(options: RegisterIpcHandlersOptions = {}): () => void {
   const sessionController = options.sessionController ?? createNoopSessionController();
-  const unregisterProviderHandlers = registerProviderHandlers();
+  const unregisterProviderHandlers = registerProviderHandlers({
+    providerRegistry: options.providerRegistry,
+  });
   const unregisterAuthHandlers = registerAuthHandlers({
     deviceFlow: options.auth?.deviceFlow,
     emitStatus: options.auth?.emitStatus,

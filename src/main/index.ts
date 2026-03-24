@@ -5,12 +5,14 @@ import { createBeforeQuitCleanup } from './lifecycle/beforeQuitCleanup';
 import { logger } from './logging/logger';
 import { createSessionController } from './session/sessionController';
 import { createSessionRuntime } from './session/createSessionRuntime';
+import { createE2EProviderRegistry, createE2ESessionController, isE2EModeEnabled } from './testing/e2eHarness';
 import { createMainWindow } from './window/createMainWindow';
 
 app.disableHardwareAcceleration();
 
 let mainWindow: ReturnType<typeof createMainWindow> | null = null;
-const sessionController = createIpcSessionController();
+const e2eMode = isE2EModeEnabled();
+const sessionController = e2eMode ? createE2ESessionController() : createIpcSessionController();
 let unregisterIpcHandlers: (() => void) | null = null;
 
 function createIpcSessionController() {
@@ -35,7 +37,10 @@ async function initializeApp(): Promise<void> {
   logger.info('LMbase starting...');
 
   try {
-    unregisterIpcHandlers = registerIpcHandlers({ sessionController });
+    unregisterIpcHandlers = registerIpcHandlers({
+      sessionController,
+      providerRegistry: e2eMode ? createE2EProviderRegistry() : undefined,
+    });
     console.log('IPC handlers registered');
     logger.info('IPC handlers registered');
 

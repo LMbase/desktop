@@ -1,6 +1,7 @@
 import { useAppStore } from '../../store/appStore';
 import { validateSetupForm } from '../../lib/validators';
 import { mapToExchangeConfig } from '../../lib/formMappers';
+import { setupTestIds } from '../../lib/testIds';
 
 type LMbaseWindow = Window & {
   lmbase: {
@@ -94,7 +95,7 @@ export function ConnectionActions() {
   return (
     <div className="cta-section">
       {connectionError && (
-        <div className="connection-error">
+        <div className="connection-error" data-testid={setupTestIds.connectionError} role="alert">
           <div className="error-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
@@ -107,7 +108,7 @@ export function ConnectionActions() {
       )}
 
       {authError && (
-        <div className="connection-error">
+        <div className="connection-error" data-testid={setupTestIds.authError} role="alert">
           <div className="error-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
@@ -120,7 +121,9 @@ export function ConnectionActions() {
       )}
 
       <button
+        type="button"
         className={`btn-primary ${isConnecting ? 'loading' : ''}`}
+        data-testid={setupTestIds.findMatchButton}
         onClick={handleConnect}
         disabled={isConnecting}
       >

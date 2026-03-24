@@ -4,6 +4,7 @@ import { ConnectionStatusColumn } from '../components/session/ConnectionStatusCo
 import { UsageAndCodeColumn } from '../components/session/UsageAndCodeColumn';
 import { ActivityLogColumn } from '../components/session/ActivityLogColumn';
 import { StatusBar } from '../components/session/StatusBar';
+import { sessionTestIds } from '../lib/testIds';
 import '../styles/design-system.css';
 import './SessionPage.css';
 
@@ -46,7 +47,7 @@ export function SessionPage({ snapshot = EMPTY_SNAPSHOT }: SessionPageProps) {
   const proxyPort = snapshot.config?.proxyPort || 9100;
 
   return (
-    <div className="session-page">
+    <div className="session-page" data-testid={sessionTestIds.page}>
       <div className="session-layout">
         <ConnectionStatusColumn
           session={snapshot}
