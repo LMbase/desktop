@@ -1,5 +1,5 @@
 /**
- * TokenHub Global Styles - Premium Dark Theme
+ * TokenHub Global Styles - Premium Light Theme
  * Base reset and layout primitives
  */
 
@@ -49,7 +49,7 @@ body {
   flex-direction: column;
 }
 
-/* Header - Premium Dark */
+/* Header - Premium Light */
 .header {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-default);
