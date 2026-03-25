@@ -18,46 +18,32 @@ export function ExchangePanel() {
 
   return (
     <div className="exchange-layout">
-      {/* Left: You Share */}
-      <div className="exchange-panel animate-slide-right" data-testid={setupTestIds.panel('offer')}>
-        <div className="panel-header animate-fade">
+      <div className="exchange-panel" data-testid={setupTestIds.panel('offer')}>
+        <div className="panel-header">
           <div className="panel-label">Your Offer</div>
           <h1 className="panel-title offer">What are you sharing?</h1>
         </div>
 
-        <div className="form-group stagger-1">
+        <div className="form-group">
           <AuthMethodSection mode="selector" />
         </div>
 
-        <div className="form-group stagger-2">
+        <div className="form-group">
           <label className="form-label">Provider</label>
           <ProviderCardGrid side="offer" />
         </div>
 
-        {offerProvider && (
-          <div className="stagger-3">
-            <AuthMethodSection mode="credentials" />
-          </div>
-        )}
+        {offerProvider && <AuthMethodSection mode="credentials" />}
 
-        {offerProvider && offerAuthReady && (
-          <div className="form-group stagger-4">
-            <ModelSelect side="offer" />
-          </div>
-        )}
+        {offerProvider && offerAuthReady && <ModelSelect side="offer" />}
 
-        <div className="stagger-5">
-          <TokenBudgetSection />
-        </div>
+        <TokenBudgetSection />
 
-        <div className="stagger-6">
-          <ConnectionActions />
-        </div>
+        <ConnectionActions />
       </div>
 
-      {/* Center: Animated swap divider */}
-      <div className="swap-divider animate-scale-in">
-        <div className="swap-icon-wrapper glow-pulse">
+      <div className="swap-divider">
+        <div className="swap-icon-wrapper">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -72,25 +58,20 @@ export function ExchangePanel() {
         </div>
       </div>
 
-      {/* Right: You Receive */}
-      <div className="exchange-panel receive-panel animate-slide-left" data-testid={setupTestIds.panel('receive')}>
-        <div className="panel-header animate-fade">
+      <div className="exchange-panel receive-panel" data-testid={setupTestIds.panel('receive')}>
+        <div className="panel-header">
           <div className="panel-label">You Receive</div>
           <h1 className="panel-title receive">What do you need?</h1>
         </div>
 
-        <div className="form-group stagger-1">
+        <div className="form-group">
           <label className="form-label">Provider</label>
           <ProviderCardGrid side="receive" />
         </div>
 
-        <div className="form-group stagger-2">
-          <ModelSelect side="receive" />
-        </div>
+        <ModelSelect side="receive" />
 
-        <div className="stagger-3">
-          <ReceiveSummary />
-        </div>
+        <ReceiveSummary />
       </div>
     </div>
   );
