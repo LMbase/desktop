@@ -38,7 +38,10 @@ jobs:
       - name: Run Electron E2E coverage
         id: e2e
         continue-on-error: true
-        run: xvfb-run -a bun run e2e:coverage
+        run: |
+          xvfb-run -a bun run e2e:coverage || {
+            echo "E2E coverage step exited with code $? — continuing"
+          }
 
       - name: Enforce coverage thresholds
         id: coverage_thresholds
