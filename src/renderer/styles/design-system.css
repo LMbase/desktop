@@ -211,6 +211,10 @@ body {
   animation: fadeIn 0.3s ease forwards;
 }
 
+.animate-fade {
+  animation: fadeIn 0.3s ease forwards;
+}
+
 .animate-scale-in {
   animation: scaleIn 0.3s ease forwards;
 }
