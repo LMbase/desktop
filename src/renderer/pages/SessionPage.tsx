@@ -5,6 +5,7 @@ import { UsageAndCodeColumn } from '../components/session/UsageAndCodeColumn';
 import { ActivityLogColumn } from '../components/session/ActivityLogColumn';
 import { StatusBar } from '../components/session/StatusBar';
 import { sessionTestIds } from '../lib/testIds';
+import '../styles/tokens.css';
 import '../styles/design-system.css';
 import './SessionPage.css';
 
