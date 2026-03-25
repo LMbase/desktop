@@ -230,8 +230,8 @@ async function fileExists(targetPath) {
 
 const isBun = typeof Bun !== 'undefined';
 const isBunMain = isBun && import.meta.path === Bun.main;
-const { fileURLToPath: nodeFileURLToPath } = await import('node:url');
-const isNodeMain = process.argv[1] === nodeFileURLToPath(import.meta.url);
+const nodeUrl = await import('node:url');
+const isNodeMain = process.argv[1] === nodeUrl.fileURLToPath(import.meta.url);
 
 if (isBunMain || isNodeMain) {
   await summarizeE2ECoverage();
