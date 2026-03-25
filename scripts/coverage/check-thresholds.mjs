@@ -1,9 +1,21 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readFile } from 'node:fs/promises';
 import { coveragePaths, e2eThresholds, readJson, vitestThresholds } from './config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../..');
+
+// Debug: log resolved paths in CI
+const vitestSummaryPath = path.join(repoRoot, coveragePaths.vitestSummary);
+console.error(`[coverage-check] repoRoot=${repoRoot}`);
+console.error(`[coverage-check] vitestSummaryPath=${vitestSummaryPath}`);
+try {
+  const content = await readFile(vitestSummaryPath, 'utf8');
+  console.error(`[coverage-check] vitest summary file size=${content.length}`);
+} catch (err) {
+  console.error(`[coverage-check] vitest summary file NOT FOUND: ${err.code}`);
+}
 
 function formatPct(value) {
   return typeof value === 'number' ? `${value.toFixed(2)}%` : 'missing';
