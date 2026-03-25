@@ -26,24 +26,26 @@ export function ConnectionActions() {
   const setConnecting = useAppStore((state) => state.setConnecting);
   const isConnecting = useAppStore((state) => state.isConnecting);
 
-  // Publish validation errors reactively so the button's disabled state stays in sync
+  const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
+
+  // Publish all blocking errors reactively so the button stays visibly disabled without a click
   useEffect(() => {
-    const errors = validateSetupForm(offer, receive, authMethod, apiKey);
-    setErrors(errors);
-  }, [offer, receive, authMethod, apiKey, setErrors]);
+    const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
+
+    if (requiresCopilotAuth) {
+      setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
+      return;
+    }
+
+    setErrors(validationErrors);
+  }, [offer, receive, authMethod, apiKey, setErrors, requiresCopilotAuth]);
 
   const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
-  const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
   const isSubmitReady = validationErrors.length === 0 && !requiresCopilotAuth;
 
   const isFormValid = () => {
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
-      return false;
-    }
-
-    if (requiresCopilotAuth) {
-      setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
       return false;
     }
 
