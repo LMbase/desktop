@@ -11,6 +11,7 @@ export default defineConfig({
   },
   build: {
     outDir: '.vite/build',
+    emptyOutDir: true,
     lib: {
       entry: 'src/main/index.ts',
       formats: ['es'],
@@ -25,11 +26,13 @@ export default defineConfig({
         'node:path',
         'node:child_process',
         'node:fs',
+        'node:os',
         'node:url',
         'path',
         'fs/promises',
         'child_process',
         'fs',
+        'os',
         'url',
       ],
     },

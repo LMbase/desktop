@@ -6,6 +6,7 @@ import { ReceiveSummary } from './CalculationDisplay';
 import { AuthMethodSection } from './AuthMethodSection';
 import { ConnectionActions } from './ConnectionActions';
 import { useAppStore } from '../../store/appStore';
+import { setupTestIds } from '../../lib/testIds';
 
 export function ExchangePanel() {
   const authMethod = useAppStore((state) => state.authMethod);
@@ -17,7 +18,7 @@ export function ExchangePanel() {
 
   return (
     <div className="exchange-layout">
-      <div className="exchange-panel">
+      <div className="exchange-panel" data-testid={setupTestIds.panel('offer')}>
         <div className="panel-header">
           <div className="panel-label">Your Offer</div>
           <h1 className="panel-title offer">What are you sharing?</h1>
@@ -41,7 +42,7 @@ export function ExchangePanel() {
         <ConnectionActions />
       </div>
 
-      <div className="exchange-panel receive-panel">
+      <div className="exchange-panel receive-panel" data-testid={setupTestIds.panel('receive')}>
         <div className="panel-header">
           <div className="panel-label">You Receive</div>
           <h1 className="panel-title receive">What do you need?</h1>

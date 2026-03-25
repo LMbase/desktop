@@ -2,5 +2,8 @@ node_modules/
 .vite/
 dist/
 out/
+/coverage/
+/playwright-report/
+/test-results/
 *.tsbuildinfo
 bun.lockb

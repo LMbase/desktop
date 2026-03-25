@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useAppStore } from '../../store/appStore';
 import { validateSetupForm } from '../../lib/validators';
 import { mapToExchangeConfig } from '../../lib/formMappers';
+import { setupTestIds } from '../../lib/testIds';
 
 type LMbaseWindow = Window & {
   lmbase: {
@@ -24,15 +26,26 @@ export function ConnectionActions() {
   const setConnecting = useAppStore((state) => state.setConnecting);
   const isConnecting = useAppStore((state) => state.isConnecting);
 
-  const isFormValid = () => {
-    const errors = validateSetupForm(offer, receive, authMethod, apiKey);
-    if (errors.length > 0) {
-      setErrors(errors);
-      return false;
+  const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
+
+  // Publish all blocking errors reactively so the button stays visibly disabled without a click
+  useEffect(() => {
+    const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
+
+    if (requiresCopilotAuth) {
+      setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
+      return;
     }
 
-    if (authMethod === 'copilot' && copilotAuth.status !== 'success') {
-      setErrors([{ field: 'auth', message: 'Please complete Copilot authentication' }]);
+    setErrors(validationErrors);
+  }, [offer, receive, authMethod, apiKey, setErrors, requiresCopilotAuth]);
+
+  const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
+  const isSubmitReady = validationErrors.length === 0 && !requiresCopilotAuth;
+
+  const isFormValid = () => {
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
       return false;
     }
 
@@ -94,7 +107,7 @@ export function ConnectionActions() {
   return (
     <div className="cta-section">
       {connectionError && (
-        <div className="connection-error">
+        <div className="connection-error" data-testid={setupTestIds.connectionError} role="alert">
           <div className="error-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
@@ -107,7 +120,7 @@ export function ConnectionActions() {
       )}
 
       {authError && (
-        <div className="connection-error">
+        <div className="connection-error" data-testid={setupTestIds.authError} role="alert">
           <div className="error-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
@@ -120,9 +133,11 @@ export function ConnectionActions() {
       )}
 
       <button
+        type="button"
         className={`btn-primary ${isConnecting ? 'loading' : ''}`}
+        data-testid={setupTestIds.findMatchButton}
         onClick={handleConnect}
-        disabled={isConnecting}
+        disabled={isConnecting || !isSubmitReady}
       >
         {isConnecting ? 'Connecting...' : 'Find Match'}
       </button>
