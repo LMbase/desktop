@@ -95,15 +95,24 @@ describe('StatusBar', () => {
   });
 
   it('applies correct dot classes for connection states', () => {
-    const { container } = render(
+    // tunnel present → dot is success
+    const { container: successContainer } = render(
       <StatusBar
         tunnelUrl="https://tokenhub.ngrok.io"
         proxyPort={9100}
         wsConnected={false}
       />
     );
+    expect(successContainer.querySelector('.dot.success')).toBeInTheDocument();
 
-    const errorDot = container.querySelector('.dot.error');
-    expect(errorDot).toBeInTheDocument();
+    // tunnel absent → dot is error
+    const { container: errorContainer } = render(
+      <StatusBar
+        tunnelUrl={null}
+        proxyPort={9100}
+        wsConnected={false}
+      />
+    );
+    expect(errorContainer.querySelector('.dot.error')).toBeInTheDocument();
   });
 });
