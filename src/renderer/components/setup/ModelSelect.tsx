@@ -75,7 +75,7 @@ export function ModelSelect({ side }: ModelSelectProps) {
           ))}
         </select>
       </div>
-      {status && !error && (
+      {status && (
         <div
           className="token-input-suffix"
           data-testid={setupTestIds.modelStatus(side)}

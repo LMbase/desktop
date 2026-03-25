@@ -12,7 +12,7 @@ export function StatusBar({ tunnelUrl, proxyPort, wsConnected, version = '1.0.0'
   return (
     <div className="status-bar">
       <div className="status-bar-item" data-testid={sessionTestIds.tunnelStatus}>
-        <span className={`dot ${wsConnected ? 'success' : 'error'}`} />
+        <span className={`dot ${tunnelUrl ? 'success' : 'error'}`} />
         <strong>Tunnel:</strong>
         <span>{tunnelUrl || 'Not connected'}</span>
       </div>

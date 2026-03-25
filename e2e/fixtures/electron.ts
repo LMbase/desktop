@@ -81,7 +81,7 @@ async function persistRendererCoverage(testInfo: TestInfo, coverageEntries: unkn
   }
 
   await mkdir(outputDir, { recursive: true });
-  const fileName = `${sanitizeFileName(testInfo.titlePath().join('__'))}-retry-${testInfo.retry}.json`;
+  const fileName = `${sanitizeFileName(testInfo.titlePath.join('__'))}-retry-${testInfo.retry}.json`;
   await writeFile(path.join(outputDir, fileName), JSON.stringify(coverageEntries, null, 2));
 }
 

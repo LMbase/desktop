@@ -1,3 +1,6 @@
+import electron from 'electron';
+const { app } = electron;
+
 import type { ExchangeEstimateResult } from '@shared/contracts/providers';
 import type { ActivityEvent, ExchangeConfig, SessionSnapshot } from '@shared/contracts/session';
 import type { Provider } from '@shared/constants';
@@ -14,7 +17,7 @@ const E2E_PROVIDER_MODELS: Record<Provider, string[]> = {
 };
 
 export function isE2EModeEnabled(): boolean {
-  return process.env.LMBASE_E2E === '1';
+  return process.env.LMBASE_E2E === '1' && !app.isPackaged;
 }
 
 export function createE2EProviderRegistry(): Pick<
@@ -22,17 +25,25 @@ export function createE2EProviderRegistry(): Pick<
   'fetchProviderModels' | 'fetchPublicProviderModels' | 'validateKey' | 'estimateExchange'
 > {
   return {
-    fetchPublicProviderModels: async (provider) => ({
-      models: E2E_PROVIDER_MODELS[provider as Provider] ?? [],
-      message: 'OK',
-    }),
+    fetchPublicProviderModels: async (provider) => {
+      if (!(provider in E2E_PROVIDER_MODELS)) {
+        return { models: [], message: `Unknown provider: ${provider}` };
+      }
+      return {
+        models: E2E_PROVIDER_MODELS[provider as Provider],
+        message: 'OK',
+      };
+    },
     fetchProviderModels: async (provider, apiKey) => {
       if (!VALID_E2E_API_KEYS.has(apiKey)) {
         return { models: [], message: 'Invalid API key for E2E stub' };
       }
+      if (!(provider in E2E_PROVIDER_MODELS)) {
+        return { models: [], message: `Unknown provider: ${provider}` };
+      }
 
       return {
-        models: E2E_PROVIDER_MODELS[provider as Provider] ?? [],
+        models: E2E_PROVIDER_MODELS[provider as Provider],
         message: 'OK',
       };
     },

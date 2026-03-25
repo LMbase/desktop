@@ -1,3 +1,13 @@
+import { readFile } from 'node:fs/promises';
+
+export async function readJson(targetPath) {
+  try {
+    return JSON.parse(await readFile(targetPath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
 export const coveragePaths = Object.freeze({
   commentFile: 'coverage/coverage-comment.md',
   e2eRendererDir: 'coverage/e2e/renderer',

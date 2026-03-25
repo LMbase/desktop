@@ -30,7 +30,8 @@ function getViteWindowName(): string {
 }
 
 export function createMainWindow() {
-  const rendererSandboxEnabled = process.env.LMBASE_E2E !== '1';
+  const isE2E = process.env.LMBASE_E2E === '1';
+  const rendererSandboxEnabled = app.isPackaged || !isE2E;
   const window = new BrowserWindow({
     width: 1280,
     height: 800,

@@ -228,6 +228,11 @@ async function fileExists(targetPath) {
   }
 }
 
-if (import.meta.path === Bun.main) {
+const isBun = typeof Bun !== 'undefined';
+const isBunMain = isBun && import.meta.path === Bun.main;
+const { default: fileURLToPath } = await import('url');
+const isNodeMain = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isBunMain || isNodeMain) {
   await summarizeE2ECoverage();
 }

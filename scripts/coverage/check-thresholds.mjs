@@ -1,10 +1,13 @@
-import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { coveragePaths, e2eThresholds, vitestThresholds } from './config.mjs';
+import { coveragePaths, e2eThresholds, readJson, vitestThresholds } from './config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../..');
+
+function formatPct(value) {
+  return typeof value === 'number' ? `${value.toFixed(2)}%` : 'missing';
+}
 
 const vitestSummary = await readJson(path.join(repoRoot, coveragePaths.vitestSummary));
 const e2eSummary = await readJson(path.join(repoRoot, coveragePaths.e2eSummary));
@@ -41,15 +44,3 @@ if (failures.length > 0) {
 }
 
 console.log('Coverage thresholds satisfied.');
-
-function formatPct(value) {
-  return typeof value === 'number' ? `${value.toFixed(2)}%` : 'missing';
-}
-
-async function readJson(targetPath) {
-  try {
-    return JSON.parse(await readFile(targetPath, 'utf8'));
-  } catch {
-    return null;
-  }
-}

@@ -7,8 +7,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 
 export default async function globalSetup(_config: FullConfig): Promise<void> {
-  execFileSync('bun', ['run', 'build:app'], {
-    cwd: repoRoot,
-    stdio: 'inherit',
-  });
+  try {
+    execFileSync('bun', ['run', 'build:app'], {
+      cwd: repoRoot,
+      stdio: 'inherit',
+      timeout: 5 * 60 * 1000,
+    });
+  } catch (err) {
+    console.error('globalSetup: bun run build:app timed out or failed');
+    throw err;
+  }
 }

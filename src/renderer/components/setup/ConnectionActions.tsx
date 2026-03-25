@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAppStore } from '../../store/appStore';
 import { validateSetupForm } from '../../lib/validators';
 import { mapToExchangeConfig } from '../../lib/formMappers';
@@ -24,6 +25,13 @@ export function ConnectionActions() {
   const setErrors = useAppStore((state) => state.setErrors);
   const setConnecting = useAppStore((state) => state.setConnecting);
   const isConnecting = useAppStore((state) => state.isConnecting);
+
+  // Publish validation errors reactively so the button's disabled state stays in sync
+  useEffect(() => {
+    const errors = validateSetupForm(offer, receive, authMethod, apiKey);
+    setErrors(errors);
+  }, [offer, receive, authMethod, apiKey]);
+
   const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
   const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
   const isSubmitReady = validationErrors.length === 0 && !requiresCopilotAuth;

@@ -121,8 +121,10 @@ describe('ConnectionActions', () => {
     render(<ConnectionActions />);
     fireEvent.click(screen.getByTestId(setupTestIds.findMatchButton));
 
-    await waitFor(() => expect(window.lmbase.providers.validateKey).toHaveBeenCalled());
-    expect(window.lmbase.session.start).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(window.lmbase.providers.validateKey).toHaveBeenCalled();
+      expect(window.lmbase.session.start).toHaveBeenCalled();
+    });
   });
 
   it('stops when provider validation fails', async () => {
