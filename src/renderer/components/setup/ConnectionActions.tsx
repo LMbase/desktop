@@ -30,7 +30,7 @@ export function ConnectionActions() {
   useEffect(() => {
     const errors = validateSetupForm(offer, receive, authMethod, apiKey);
     setErrors(errors);
-  }, [offer, receive, authMethod, apiKey]);
+  }, [offer, receive, authMethod, apiKey, setErrors]);
 
   const validationErrors = validateSetupForm(offer, receive, authMethod, apiKey);
   const requiresCopilotAuth = authMethod === 'copilot' && copilotAuth.status !== 'success';
