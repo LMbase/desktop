@@ -36,9 +36,13 @@ export function App() {
 
   return (
     <div className="app">
-      <header className="header">
+      <header className="header animate-fade">
         <TokenHubLogo />
         <div className="header-status">
+          <span className="live-badge">
+            <span className="live-dot"></span>
+            Live
+          </span>
           <span className="version-badge">v1.0.0</span>
         </div>
       </header>
