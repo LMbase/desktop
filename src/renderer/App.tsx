@@ -39,10 +39,14 @@ export function App() {
       <header className="header animate-fade">
         <TokenHubLogo />
         <div className="header-status">
-          <span className="live-badge">
-            <span className="live-dot"></span>
-            Live
-          </span>
+          {isInSession ? (
+            <span className="live-badge">
+              <span className="live-dot"></span>
+              Live
+            </span>
+          ) : (
+            <span className="version-badge">Ready</span>
+          )}
           <span className="version-badge">v1.0.0</span>
         </div>
       </header>

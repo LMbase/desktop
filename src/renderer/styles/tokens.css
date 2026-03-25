@@ -7,15 +7,15 @@
 :root {
   /* Background Surfaces - Light Theme */
   --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-elevated: #f4f4f5;
-  --bg-muted: #f4f4f5;
+  --bg-surface: #fafafa;
+  --bg-elevated: #fafafa;
+  --bg-muted: #fafafa;
 
   /* Text Colors - Dark on Light */
   --text-primary: #18181b;
-  --text-secondary: #71717a;
-  --text-tertiary: #a1a1aa;
-  --text-muted: #a1a1aa;
+  --text-secondary: #52525b;
+  --text-tertiary: #52525b;
+  --text-muted: #52525b;
 
   /* Semantic Colors - Premium Green */
   --success: #22c55e;
@@ -45,11 +45,6 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
   --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.15);
 
-  /* Gradient Definitions */
-  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  --gradient-success-hover: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  --gradient-card: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
-
   /* Spacing Scale (4px base) */
   --space-1: 4px;
   --space-2: 8px;
@@ -64,8 +59,8 @@
 
   /* Typography */
   --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+  --font-body: 'IBM Plex Sans', -apple-system, blinkmacsystemfont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monaco, monospace;
 
   --text-xs: 11px;
   --text-sm: 13px;

@@ -2,95 +2,7 @@
    DESIGN SYSTEM - PREMIUM LIGHT THEME
    Trust-focused, high contrast, purposeful
    ============================================ */
-:root {
-  /* Background Surfaces */
-  --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-elevated: #f4f4f5;
-  --bg-muted: #f4f4f5;
-
-  /* Text Colors */
-  --text-primary: #18181b;
-  --text-secondary: #71717a;
-  --text-tertiary: #a1a1aa;
-  --text-muted: #a1a1aa;
-
-  /* Semantic Colors */
-  --success: #22c55e;
-  --success-bg: rgba(34, 197, 94, 0.08);
-  --success-border: rgba(34, 197, 94, 0.2);
-
-  --warning: #f97316;
-  --warning-bg: rgba(249, 115, 22, 0.08);
-  --warning-border: rgba(249, 115, 22, 0.2);
-
-  --error: #ef4444;
-  --error-bg: rgba(239, 68, 68, 0.08);
-  --error-border: rgba(239, 68, 68, 0.2);
-
-  --info: #3b82f6;
-  --info-bg: rgba(59, 130, 246, 0.08);
-  --info-border: rgba(59, 130, 246, 0.2);
-
-  /* Border Colors */
-  --border-default: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --border-focus: #22c55e;
-
-  /* Shadows - Subtle for light theme */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.15);
-
-  /* Gradient Definitions */
-  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  --gradient-success-hover: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-  --gradient-card: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
-
-  /* Spacing Scale (4px base) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-
-  /* Typography */
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
-
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-lg: 17px;
-  --text-xl: 19px;
-  --text-2xl: 22px;
-  --text-3xl: 26px;
-  --text-4xl: 32px;
-  --text-5xl: 40px;
-
-  --leading-tight: 1.2;
-  --leading-normal: 1.45;
-  --leading-relaxed: 1.6;
-
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
-  --radius-full: 9999px;
-
-  /* Transitions */
-  --transition-fast: 120ms ease;
-  --transition-normal: 180ms ease;
-}
+@import url('./tokens.css');
 
 /* ============================================
    BASE RESET
@@ -121,13 +33,13 @@ body {
    ============================================ */
 
 /* Fade In Animation */
-@keyframes fadeIn {
+@keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* Staggered Fade In - For sequential elements */
-@keyframes fadeInStaggered {
+@keyframes fade-in-staggered {
   from {
     opacity: 0;
     transform: translateY(16px);
@@ -139,7 +51,7 @@ body {
 }
 
 /* Scale In Animation */
-@keyframes scaleIn {
+@keyframes scale-in {
   from {
     opacity: 0;
     transform: scale(0.95);
@@ -151,7 +63,7 @@ body {
 }
 
 /* Slide In from Left */
-@keyframes slideInLeft {
+@keyframes slide-in-left {
   from {
     opacity: 0;
     transform: translateX(-20px);
@@ -163,7 +75,7 @@ body {
 }
 
 /* Slide In from Right */
-@keyframes slideInRight {
+@keyframes slide-in-right {
   from {
     opacity: 0;
     transform: translateX(20px);
@@ -181,13 +93,13 @@ body {
 }
 
 /* Progress Pulse */
-@keyframes progressPulse {
+@keyframes progress-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.8; }
 }
 
 /* Glow Pulse - For premium effects */
-@keyframes glowPulse {
+@keyframes glow-pulse {
   0%, 100% {
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
   }
@@ -208,23 +120,23 @@ body {
 
 /* Animation Classes */
 .animate-in {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fade-in 0.3s ease forwards;
 }
 
 .animate-fade {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fade-in 0.3s ease forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.3s ease forwards;
+  animation: scale-in 0.3s ease forwards;
 }
 
 .animate-slide-left {
-  animation: slideInLeft 0.4s ease forwards;
+  animation: slide-in-left 0.4s ease forwards;
 }
 
 .animate-slide-right {
-  animation: slideInRight 0.4s ease forwards;
+  animation: slide-in-right 0.4s ease forwards;
 }
 
 .pulse {
@@ -232,7 +144,7 @@ body {
 }
 
 .glow-pulse {
-  animation: glowPulse 2s ease-in-out infinite;
+  animation: glow-pulse 2s ease-in-out infinite;
 }
 
 /* Staggered Animation Classes */
@@ -248,7 +160,7 @@ body {
 /* Staggered Fade In Container */
 .stagger-container > * {
   opacity: 0;
-  animation: fadeInStaggered 0.5s ease forwards;
+  animation: fade-in-staggered 0.5s ease forwards;
 }
 
 .stagger-container > *:nth-child(1) { animation-delay: 0.05s; }
