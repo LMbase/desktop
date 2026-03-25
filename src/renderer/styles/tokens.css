@@ -1,49 +1,55 @@
 /**
- * TokenHub Design System - Light Theme Tokens
+ * TokenHub Design System - Premium Dark Theme Tokens
  * Trust-focused, high contrast, purposeful design
  * Extracted from redesign.html mockup
  */
 
 :root {
-  /* Background Surfaces */
-  --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-elevated: #f4f4f5;
-  --bg-muted: #e4e4e7;
-  
-  /* Text Colors */
-  --text-primary: #18181b;
-  --text-secondary: #52525b;
+  /* Background Surfaces - Dark Theme */
+  --bg-base: #09090b;
+  --bg-surface: #111113;
+  --bg-elevated: #18181b;
+  --bg-muted: #27272a;
+
+  /* Text Colors - Light on Dark */
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
   --text-tertiary: #71717a;
-  --text-muted: #a1a1aa;
-  
-  /* Semantic Colors */
-  --success: #16a34a;
-  --success-bg: #dcfce7;
-  --success-border: #86efac;
-  
-  --warning: #ea580c;
-  --warning-bg: #fff7ed;
-  --warning-border: #fed7aa;
-  
-  --error: #dc2626;
-  --error-bg: #fef2f2;
-  --error-border: #fecaca;
-  
-  --info: #2563eb;
-  --info-bg: #eff6ff;
-  --info-border: #bfdbfe;
-  
+  --text-muted: #52525b;
+
+  /* Semantic Colors - Premium Green */
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.15);
+  --success-border: rgba(34, 197, 94, 0.3);
+
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  --warning-border: rgba(245, 158, 11, 0.3);
+
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.15);
+  --error-border: rgba(239, 68, 68, 0.3);
+
+  --info: #3b82f6;
+  --info-bg: rgba(59, 130, 246, 0.15);
+  --info-border: rgba(59, 130, 246, 0.3);
+
   /* Border Colors */
-  --border-default: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --border-focus: #3b82f6;
-  
-  /* Shadows - Subtle, not decorative */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  
+  --border-default: #27272a;
+  --border-strong: #3f3f46;
+  --border-focus: #22c55e;
+
+  /* Shadows - Subtle glow for dark theme */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.15);
+
+  /* Gradient Definitions */
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  --gradient-success-hover: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+
   /* Spacing Scale (4px base) */
   --space-1: 4px;
   --space-2: 8px;
@@ -55,12 +61,12 @@
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
-  
+
   /* Typography */
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
-  
+
   --text-xs: 11px;
   --text-sm: 13px;
   --text-base: 15px;
@@ -70,11 +76,11 @@
   --text-3xl: 26px;
   --text-4xl: 32px;
   --text-5xl: 40px;
-  
+
   --leading-tight: 1.2;
   --leading-normal: 1.45;
   --leading-relaxed: 1.6;
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -82,11 +88,11 @@
   --radius-xl: 12px;
   --radius-2xl: 16px;
   --radius-full: 9999px;
-  
+
   /* Transitions */
   --transition-fast: 120ms ease;
   --transition-normal: 180ms ease;
-  
+
   /* Provider Colors */
   --provider-openai: #10a37f;
   --provider-anthropic: #d4a27f;

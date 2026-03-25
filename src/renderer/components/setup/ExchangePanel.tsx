@@ -42,6 +42,22 @@ export function ExchangePanel() {
         <ConnectionActions />
       </div>
 
+      <div className="swap-divider">
+        <div className="swap-icon-wrapper">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M7 10h14l-4-4" />
+            <path d="M17 14H3l4 4" />
+          </svg>
+        </div>
+      </div>
+
       <div className="exchange-panel receive-panel" data-testid={setupTestIds.panel('receive')}>
         <div className="panel-header">
           <div className="panel-label">You Receive</div>

@@ -3,6 +3,20 @@ import { SetupPage } from './pages/SetupPage';
 import { SessionPage } from './pages/SessionPage';
 import type { SessionSnapshot } from '@shared/contracts/session';
 
+function TokenHubLogo() {
+  return (
+    <div className="logo">
+      <div className="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+      </div>
+      <span className="logo-text">TokenHub</span>
+    </div>
+  );
+}
+
 export function App() {
   const [snapshot, setSnapshot] = useState<SessionSnapshot | null>(null);
 
@@ -20,5 +34,17 @@ export function App() {
 
   const isInSession = snapshot?.status === 'paired' || snapshot?.status === 'connecting';
 
-  return isInSession ? <SessionPage snapshot={snapshot!} /> : <SetupPage />;
+  return (
+    <div className="app">
+      <header className="header">
+        <TokenHubLogo />
+        <div className="header-status">
+          <span className="version-badge">v1.0.0</span>
+        </div>
+      </header>
+      <main className="main">
+        {isInSession ? <SessionPage snapshot={snapshot!} /> : <SetupPage />}
+      </main>
+    </div>
+  );
 }

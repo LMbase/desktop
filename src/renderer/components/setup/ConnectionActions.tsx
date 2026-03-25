@@ -142,6 +142,10 @@ export function ConnectionActions() {
         {isConnecting ? 'Connecting...' : 'Find Match'}
       </button>
 
+      <p className="cta-microcopy">
+        <strong>Secure P2P matching</strong> — your API key stays encrypted on your device
+      </p>
+
       <style>{`
         .connection-error {
           display: flex;
@@ -155,7 +159,7 @@ export function ConnectionActions() {
           font-size: var(--text-sm);
           color: var(--error);
         }
-        
+
         .error-icon {
           flex-shrink: 0;
         }
