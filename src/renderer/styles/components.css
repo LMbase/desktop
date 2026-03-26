@@ -19,16 +19,6 @@
   align-items: center;
   justify-content: center;
   padding: 0 var(--space-6);
-  position: relative;
-}
-
-.swap-divider::before {
-  content: '';
-  position: absolute;
-  top: var(--space-16);
-  bottom: var(--space-16);
-  width: 1px;
-  background: var(--border-strong);
 }
 
 .exchange-panel {
@@ -36,11 +26,14 @@
   padding: var(--space-10);
   display: flex;
   flex-direction: column;
+}
+
+.exchange-panel:first-child {
   border-right: 1px solid var(--border-default);
 }
 
 .exchange-panel:last-child {
-  border-right: none;
+  border-left: 1px solid var(--border-default);
 }
 
 .panel-header {
@@ -653,12 +646,14 @@
 
   .exchange-panel {
     border-right: none;
+    border-left: none;
     border-bottom: 1px solid var(--border-default);
     padding: var(--space-6);
   }
 
   .exchange-panel:last-child {
     border-bottom: none;
+    border-left: none;
   }
 }
 
