@@ -646,12 +646,14 @@
 
   .exchange-panel {
     border-right: none;
+    border-left: none;
     border-bottom: 1px solid var(--border-default);
     padding: var(--space-6);
   }
 
   .exchange-panel:last-child {
     border-bottom: none;
+    border-left: none;
   }
 }
 
