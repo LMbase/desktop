@@ -10,10 +10,26 @@ import { createMainWindow } from './window/createMainWindow';
 
 app.disableHardwareAcceleration();
 
+// Single-instance lock: only allow one instance to run at a time.
+// A second instance will focus the existing window and quit.
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  console.log('Another instance is already running. Quitting.');
+  app.quit();
+}
+
 let mainWindow: ReturnType<typeof createMainWindow> | null = null;
 const e2eMode = isE2EModeEnabled();
 const sessionController = e2eMode ? createE2ESessionController() : createIpcSessionController();
 let unregisterIpcHandlers: (() => void) | null = null;
+
+app.on('second-instance', () => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
 
 function createIpcSessionController() {
   const controller = createSessionController({ runtime: createSessionRuntime() });
@@ -59,6 +75,10 @@ async function initializeApp(): Promise<void> {
 }
 
 app.whenReady().then(() => {
+  if (!gotTheLock) {
+    // Shouldn't happen since we quit above, but safety first
+    return;
+  }
   console.log('App is ready');
   return initializeApp();
 }).catch((error) => {

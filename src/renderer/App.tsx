@@ -3,7 +3,7 @@ import { SetupPage } from './pages/SetupPage';
 import { SessionPage } from './pages/SessionPage';
 import type { SessionSnapshot } from '@shared/contracts/session';
 
-function TokenHubLogo() {
+function LMbaseLogo() {
   return (
     <div className="logo">
       <div className="logo-mark">
@@ -12,7 +12,7 @@ function TokenHubLogo() {
           <path d="M12 6v6l4 2" />
         </svg>
       </div>
-      <span className="logo-text">TokenHub</span>
+      <span className="logo-text">LMbase</span>
     </div>
   );
 }
@@ -37,7 +37,7 @@ export function App() {
   return (
     <div className="app">
       <header className="header animate-fade">
-        <TokenHubLogo />
+        <LMbaseLogo />
         <div className="header-status">
           {isInSession ? (
             <span className="live-badge">

@@ -1,13 +1,10 @@
 import electron from 'electron';
 const { BrowserWindow, app } = electron;
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { logger } from '../logging/logger';
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
 declare const MAIN_WINDOW_VITE_NAME: string;
-
-const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 
 function getViteDevServerUrl(): string | undefined {
   try {
@@ -39,7 +36,7 @@ export function createMainWindow() {
     minHeight: 600,
     title: 'LMbase',
     webPreferences: {
-      preload: path.join(moduleDir, 'preload.cjs'),
+      preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: rendererSandboxEnabled,
