@@ -1,10 +1,15 @@
 import electron from 'electron';
 const { BrowserWindow, app } = electron;
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { logger } from '../logging/logger';
 
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
 declare const MAIN_WINDOW_VITE_NAME: string;
+
+// ESM does not have __dirname — derive it from import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function getViteDevServerUrl(): string | undefined {
   try {
@@ -52,7 +57,7 @@ export function createMainWindow() {
     window.webContents.openDevTools();
     logger.info('Loading from dev server');
   } else {
-    window.loadFile(path.join(moduleDir, `../renderer/${windowName}/index.html`));
+    window.loadFile(path.join(__dirname, `../renderer/${windowName}/index.html`));
     logger.info('Loading from built files');
   }
 
