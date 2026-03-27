@@ -10,9 +10,10 @@ import { createMainWindow } from './window/createMainWindow';
 
 app.disableHardwareAcceleration();
 
-// Single-instance lock: only allow one instance to run at a time.
-// A second instance will focus the existing window and quit.
-const gotTheLock = app.requestSingleInstanceLock();
+// Single-instance lock: only allow one instance at a time by default.
+// Set LMBASE_ALLOW_MULTIPLE_INSTANCES=1 to disable (e.g. for demos).
+const allowMultiple = process.env.LMBASE_ALLOW_MULTIPLE_INSTANCES === '1';
+const gotTheLock = allowMultiple || app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
   console.log('Another instance is already running. Quitting.');
