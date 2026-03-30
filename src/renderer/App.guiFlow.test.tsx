@@ -23,7 +23,7 @@ describe('App GUI flow', () => {
     vi.mocked(window.lmbase.session.onActivityLog).mockReturnValue(() => undefined);
     vi.mocked(window.lmbase.providers.validateKey).mockResolvedValue({ valid: true, message: 'OK' });
     vi.mocked(window.lmbase.providers.fetchModels).mockImplementation(async ({ provider }) => ({
-      models: MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [],
+      models: [...(MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [])],
       message: 'OK',
     }));
     vi.mocked(window.lmbase.auth.startCopilotAuth).mockResolvedValue({
@@ -109,6 +109,22 @@ describe('App GUI flow', () => {
     await waitFor(() => expect(screen.getByTestId(sessionTestIds.page)).toBeInTheDocument());
     expect(screen.getByTestId(sessionTestIds.websocketStatus)).toHaveTextContent('Connected');
     expect(screen.getByTestId(sessionTestIds.tunnelStatus)).toHaveTextContent('https://peer.gui-flow.test');
+  });
+
+  it('renders a fallback alert when the preload bridge is unavailable', () => {
+    const originalLmbase = window.lmbase;
+
+    Reflect.set(window, 'lmbase', undefined);
+
+    try {
+      render(<App />);
+
+      expect(screen.getByRole('alert').textContent).toBe(
+        'LMbase failed to initialize the desktop bridge. Restart the app.'
+      );
+    } finally {
+      Reflect.set(window, 'lmbase', originalLmbase);
+    }
   });
 
   it('keeps provider selection isolated between offer and receive panes', async () => {
@@ -241,7 +257,7 @@ describe('App GUI flow', () => {
       }
 
       return {
-        models: MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [],
+        models: [...(MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [])],
         message: 'OK',
       };
     });
@@ -273,7 +289,7 @@ describe('App GUI flow', () => {
       }
 
       return {
-        models: MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [],
+        models: [...(MODEL_FIXTURES[provider as keyof typeof MODEL_FIXTURES] ?? [])],
         message: 'OK',
       };
     });

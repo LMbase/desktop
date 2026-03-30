@@ -19,8 +19,14 @@ function LMbaseLogo() {
 
 export function App() {
   const [snapshot, setSnapshot] = useState<SessionSnapshot | null>(null);
+  const hasSessionBridge = typeof window.lmbase?.session !== 'undefined';
 
   useEffect(() => {
+    if (!hasSessionBridge) {
+      console.error('LMbase preload bridge is unavailable.');
+      return;
+    }
+
     const unsubscribe = window.lmbase.session.onSessionUpdate((newSnapshot: SessionSnapshot | null) => {
       setSnapshot(newSnapshot);
     });
@@ -30,7 +36,17 @@ export function App() {
     });
 
     return unsubscribe;
-  }, []);
+  }, [hasSessionBridge]);
+
+  if (!hasSessionBridge) {
+    return (
+      <div className="app">
+        <main className="main">
+          <div role="alert">LMbase failed to initialize the desktop bridge. Restart the app.</div>
+        </main>
+      </div>
+    );
+  }
 
   const isInSession = snapshot?.status === 'paired' || snapshot?.status === 'connecting';
 

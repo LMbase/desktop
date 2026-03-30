@@ -11,7 +11,7 @@ export default defineConfig({
   },
   build: {
     outDir: '.vite/build',
-    emptyOutDir: true,
+    emptyOutDir: false,
     lib: {
       entry: 'src/main/index.ts',
       formats: ['es'],
